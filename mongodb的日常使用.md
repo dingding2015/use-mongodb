@@ -1,5 +1,7 @@
 <h1 align="center">mongodb的使用</h1>
 
+[TOC]
+
 ## 1、 mongodb需要了解的一些概念
 * database 数据库 <br>
 
@@ -28,7 +30,7 @@
    
 * primary key  主键，mongodb自动将_id字段设置为主键 <br>
 
-## 2 mongodb的连接
+## 2、 mongodb的连接
 
 标准 URI 连接语法：
 	<pre><code>
