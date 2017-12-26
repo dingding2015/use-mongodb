@@ -1,6 +1,5 @@
 <h1 align="center">mongodb的使用</h1>
 
-[TOC]
 
 ## 1、 mongodb需要了解的一些概念
 * database 数据库 <br>
@@ -21,10 +20,60 @@
   BSON is a binary serialization format used to store documents and make remote procedure calls in MongoDB. 
   
 * field 字段/域、column <br>
-  mongodb支持的数据类型：
-  <pre><code>
-  db.collection.insertOne() 
-  </code></pre>
+  mongodb支持的常用数据类型：
+  
+  <table>
+  <tr>
+    <td>数据类型</td><td>描述</td>
+  </tr>
+    <tr>
+    <td>String</td><td>字符串，mongodb中utf-8编码的字符串才是合法的</td>
+  </tr>
+    <tr>
+    <td>Integer</td><td>整型数值</td>
+  </tr>
+    <tr>
+    <td>Boolean</td><td>布尔值</td>
+  </tr>
+    <tr>
+    <td>Double</td><td>双精度浮点数</td>
+  </tr>
+    <tr>
+    <td>Array</td><td>数组</td>
+  </tr>
+    <tr>
+    <td>Timestamp</td><td>时间戳</td>
+  </tr>
+    <tr>
+    <td>Object</td><td>内嵌文档</td>
+  </tr>
+    <tr>
+    <td>Null</td><td>用于创建空值</td>
+  </tr>
+    <tr>
+    <td>Date</td><td>日期时间</td>
+  </tr>
+    <tr>
+    <td>Object ID</td><td>对象ID，用于创建文档ID</td>
+  </tr>
+    <tr>
+    <td>Binary Data</td><td>二进制数据</td>
+  </tr>
+  <tr>
+    <td>Code</td><td>代码类型。用于在文档中存储 JavaScript 代码。</td>
+  </tr>
+  </tr>
+    <tr>
+    <td>Min/Max keys</td><td>将一个值与 BSON（二进制的 JSON）元素的最低值和最高值相对比</td>
+  </tr>
+   <tr>
+    <td>Symbol</td><td>符号。该数据类型基本上等同于字符串类型，但不同的是，它一般用于采用特殊符号类型的语言。</td>
+  </tr>
+  <tr>
+    <td>Regular expression</td><td>正则表达式类型。用于存储正则表达式。</td>
+  </tr>
+  </table>
+
   
 * index 索引 <br>
    
@@ -129,6 +178,7 @@ BulkWriteResult({
 </code></pre>
 
 * insertOne()插入单条记录
+
 <pre><code>
 rs0: PRIMARY> db.mycollection.insertOne({'name':'delete one','note':'delete learn'})
 {
@@ -138,6 +188,7 @@ rs0: PRIMARY> db.mycollection.insertOne({'name':'delete one','note':'delete lear
 </code></pre>
 
 * insertMany()插入多条记录
+
 <pre><code>
 rs0: PRIMARY> db.mycollection.insertMany([{'name':'delete one','note':'delete learn'},{'name':'delete two','note':'delete learn'},{'name':'delete three','note':'delete learn'}])
 {
@@ -244,49 +295,49 @@ db.collection.bulkWrite(
 
 ### 3.9 query
 
-* 查询所有记录
+####（1）查询所有记录
  
  <pre><code>
 rs0: PRIMARY> db.mycollection.find()
-SQL : select * from mytable;
+SQL : select * from mycollection;
 </code></pre>
 
-* 条件查询
+####（2）条件查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1})
-SQL : select * from mytable where status = 1
+SQL : select * from mycollection where status = 1
 </code></pre>
 
-* in查询
+####（3）in查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':{$in[1,2]}})
-SQL : select * from mytable where status in (1, 2)
+SQL : select * from mycollection where status in (1, 2)
 </code></pre>
 
-* and查询
+####（4）and查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1,level:{$lt:3}})
-SQL : select * from mytable where status = 1 and level < 3
+SQL : select * from mycollection where status = 1 and level < 3
 </code></pre>
 
-* or查询
+####（5）or查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({$or:[{'status':1},{'level':{$lt:3}}]})
-SQL : select * from mytable where status = 1 or level < 3
+SQL : select * from mycollection where status = 1 or level < 3
 </code></pre>
 
-* and or 查询
+####（6）and or 查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1, $or:[{'level':{$lt:3}},{'time':{$gt:3}}]})
-SQL : select * from mytable where status = 1 or (level < 3 and time > 3)
+SQL : select * from mycollection where status = 1 or (level < 3 and time > 3)
 </code></pre>
 
-* 嵌入式Embedded/Nested查询
+####（7）嵌入式Embedded/Nested查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.insert( [
@@ -317,9 +368,9 @@ rs0:PRIMARY> db.mytest.find( { "size.h": { $lt: 15 }, "size.uom": "in", status: 
 { "_id" : ObjectId("5a40974246245769d3e9e04b"), "item" : "paper", "qty" : 100, "size" : { "h" : 8.5, "w" : 11, "uom" : "in" }, "status" : "D" }
 </code></pre>
 
-* array查询
+####（8）array查询
 
-插入test数据
+插入测试数据
 <pre><code>
 rs0:PRIMARY> db.mytest.insertMany([
 ...    { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
@@ -340,7 +391,7 @@ rs0:PRIMARY> db.mytest.insertMany([
 }
 </code></pre>
 
-精确查询整个数组
+* 精确查询整个数组
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'tags':['blank','red']})
@@ -348,7 +399,7 @@ rs0:PRIMARY> db.mytest.find({'tags':['blank','red']})
 { "_id" : ObjectId("5a409a4046245769d3e9e051"), "item" : "planner", "qty" : 75, "tags" : [ "blank", "red" ], "dim_cm" : [ 22.85, 30 ] }
 </code></pre>
 
-不按顺序查询数组
+* 不按顺序查询数组
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'tags':{$all:['blank','red']}})
@@ -358,7 +409,7 @@ rs0:PRIMARY> db.mytest.find({'tags':{$all:['blank','red']}})
 { "_id" : ObjectId("5a409a4046245769d3e9e051"), "item" : "planner", "qty" : 75, "tags" : [ "blank", "red" ], "dim_cm" : [ 22.85, 30 ] }
 </code></pre>
 
-查询数组的一个元素
+* 查询数组的一个元素
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'tags':'red'})
@@ -368,7 +419,7 @@ rs0:PRIMARY> db.mytest.find({'tags':'red'})
 { "_id" : ObjectId("5a409a4046245769d3e9e051"), "item" : "planner", "qty" : 75, "tags" : [ "blank", "red" ], "dim_cm" : [ 22.85, 30 ] }
 </code></pre>
 
-数组的条件查询
+* 数组的条件查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'dim_cm':{$gt:25}})
@@ -378,13 +429,14 @@ rs0:PRIMARY> db.mytest.find({'dim_cm':{$gt:22,$lt:25}})
 { "_id" : ObjectId("5a409a4046245769d3e9e051"), "item" : "planner", "qty" : 75, "tags" : [ "blank", "red" ], "dim_cm" : [ 22.85, 30 ] }
 </code></pre>
 
-指定元素查询
+* 指定元素查询
+
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'dim_cm.0':{$gt:22}})
 { "_id" : ObjectId("5a409a4046245769d3e9e051"), "item" : "planner", "qty" : 75, "tags" : [ "blank", "red" ], "dim_cm" : [ 22.85, 30 ] }
 </code></pre>
 
-数组元素个数查询
+* 数组元素个数查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find({'dim_cm':{$size:2}})
@@ -398,7 +450,7 @@ rs0:PRIMARY> db.mytest.find({'dim_cm':{$size:3}})
 rs0:PRIMARY>
 </code></pre>
 
-* 数组内嵌
+####（9）数组内嵌
 
 插入测试数据
 <pre><code>
@@ -421,7 +473,8 @@ rs0:PRIMARY> db.mytest.insertMany( [
 }
 </code></pre>
 
-数组内嵌查询，必须按照顺序才能匹配，不按照顺序无法匹配到
+* 数组内嵌查询，必须按照顺序才能匹配，不按照顺序无法匹配到
+ 
 <pre><code>
 rs0:PRIMARY> db.mytest.find( { "instock": { warehouse: "A", qty: 5 } } )
 { "_id" : ObjectId("5a409f6446245769d3e9e053"), "item" : "journal", "instock" : [ { "warehouse" : "A", "qty" : 5 }, { "warehouse" : "C", "qty" : 15 } ] }
@@ -430,14 +483,14 @@ rs0:PRIMARY>
 rs0:PRIMARY>
 </code></pre>
 
-数组字段的条件查询，'.'的使用
+* 数组字段的条件查询，'.'的使用
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find( { "instock.qty": {$gt:40 } } )
 { "_id" : ObjectId("5a409f6446245769d3e9e055"), "item" : "paper", "instock" : [ { "warehouse" : "A", "qty" : 60 }, { "warehouse" : "B", "qty" : 15 } ] }
 </code></pre>
 
-数组内嵌按元素查询
+* 数组内嵌按元素查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find( { "instock.0.qty": {$gt:40 } } )
@@ -446,10 +499,126 @@ rs0:PRIMARY> db.mytest.find( { "instock.1.qty": {$gt:20 } } )
 { "_id" : ObjectId("5a409f6446245769d3e9e057"), "item" : "postcard", "instock" : [ { "warehouse" : "B", "qty" : 15 }, { "warehouse" : "C", "qty" : 35 } ] }
 </code></pre>
 
-多条件查询
+* 多条件查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.find( { "instock.qty": 5, "instock.warehouse": "A" } )
 { "_id" : ObjectId("5a409f6446245769d3e9e053"), "item" : "journal", "instock" : [ { "warehouse" : "A", "qty" : 5 }, { "warehouse" : "C", "qty" : 15 } ] }
 { "_id" : ObjectId("5a409f6446245769d3e9e056"), "item" : "planner", "instock" : [ { "warehouse" : "A", "qty" : 40 }, { "warehouse" : "B", "qty" : 5 } ] }
 </code></pre>
+
+####（10） 返回需要的查询结果
+
+插入测试数据
+
+<pre><code>
+db.mytest.insertMany( [
+  { item: "journal", status: "A", size: { h: 14, w: 21, uom: "cm" }, instock: [ { warehouse: "A", qty: 5 } ] },
+  { item: "notebook", status: "A",  size: { h: 8.5, w: 11, uom: "in" }, instock: [ { warehouse: "C", qty: 5 } ] },
+  { item: "paper", status: "D", size: { h: 8.5, w: 11, uom: "in" }, instock: [ { warehouse: "A", qty: 60 } ] },
+  { item: "planner", status: "D", size: { h: 22.85, w: 30, uom: "cm" }, instock: [ { warehouse: "A", qty: 40 } ] },
+  { item: "postcard", status: "A", size: { h: 10, w: 15.25, uom: "cm" }, instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] }
+]);
+</code></pre>
+
+* 返回所有字段
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find({'status':'A'})
+SQL : select * from mytest where status = 'A'
+</code></pre>
+
+* 返回需要的字段
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find({'status':'A'},{item:1,status:1})
+SQL: select _id,item,status from mytest where status = 'A'
+</code></pre>
+
+* 不返回_id
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find({'status':'A'},{item:1,status:1,_id:0})
+SQL: select item,status from mytest where status = 'A'
+</code></pre>
+
+* 返回内嵌文档的某个元素
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find({'status':'A'},{item:1,status:1,'size.h':1,_id:0})
+{ "item" : "journal", "status" : "A", "size" : { "h" : 14 } }
+{ "item" : "notebook", "status" : "A", "size" : { "h" : 8.5 } }
+{ "item" : "postcard", "status" : "A", "size" : { "h" : 10 } }
+</code></pre>
+
+* 不返回内嵌文档的某个元素，其他的都返回，不能加其他条件了
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find({'status':'A'},{'size.h':0})
+{ "_id" : ObjectId("5a419b8ecd5b5c783322ef2a"), "item" : "journal", "status" : "A", "size" : { "w" : 21, "uom" : "cm" }, "instock" : [ { "warehouse" : "A", "qty" : 5 } ] }
+{ "_id" : ObjectId("5a419b8ecd5b5c783322ef2b"), "item" : "notebook", "status" : "A", "size" : { "w" : 11, "uom" : "in" }, "instock" : [ { "warehouse" : "C", "qty" : 5 } ] }
+{ "_id" : ObjectId("5a419b8ecd5b5c783322ef2e"), "item" : "postcard", "status" : "A", "size" : { "w" : 15.25, "uom" : "cm" }, "instock" : [ { "warehouse" : "B", "qty" : 15 }, { "warehouse" : "C", "qty" : 35 } ] }
+</code></pre>
+
+* 返回数组元素
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find( { status: "A" }, { "instock.qty": 1,_id:0 } )
+{ "instock" : [ { "qty" : 5 } ] }
+{ "instock" : [ { "qty" : 5 } ] }
+{ "instock" : [ { "qty" : 15 }, { "qty" : 35 } ] }
+</code></pre>
+
+* 返回数组的最后一个元素
+
+<pre><code>
+rs0:PRIMARY> db.mytest.find( { status: "A" }, {instock:{$slice:-1},_id:0,item:1,status:1 } )
+{ "item" : "journal", "status" : "A", "instock" : [ { "warehouse" : "A", "qty" : 5 } ] }
+{ "item" : "notebook", "status" : "A", "instock" : [ { "warehouse" : "C", "qty" : 5 } ] }
+{ "item" : "postcard", "status" : "A", "instock" : [ { "warehouse" : "C", "qty" : 35 } ] }
+</code></pre>
+
+#### (11) null值的查询和是否存在某值的查询
+
+插入测试数据
+<pre><code>
+db.mytest2.insertMany([
+   { _id: 1, item: null },
+   { _id: 2 }
+])
+</code></pre>
+
+
+* null的查询，返回所有null的记录
+
+<pre><code>
+rs0:PRIMARY> db.mytest2.find({item:null})
+{ "_id" : 1, "item" : null }
+{ "_id" : 2 }
+</code></pre>
+
+* 返回包含null的记录 <br>
+ the value of the item field is of BSON Type Null (type number 10)
+ The query returns only the document where the item field has a value of null.
+ 
+<pre><code>
+rs0:PRIMARY> db.mytest2.find({item:{$type:10}})
+{ "_id" : 1, "item" : null }
+</code></pre>
+
+* 查询包含item字段或者不包含item字段的记录，使用$exists
+
+<pre><code>
+rs0:PRIMARY> db.mytest2.find({item:{$exists:false}})
+{ "_id" : 2 }
+rs0:PRIMARY> db.mytest2.find({item:{$exists:true}})
+{ "_id" : 1, "item" : null }
+</code></pre>
+
+####（12） 创建索引
+
+<pre><code>
+db.mytest.createIndex( { user_id: 1,addtime:-1 } )
+1 表示正序，-1表示倒序
+</code></pre>
+
