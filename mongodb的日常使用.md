@@ -295,49 +295,49 @@ db.collection.bulkWrite(
 
 ### 3.9 query
 
-####（1）查询所有记录
+#### （1）查询所有记录
  
  <pre><code>
 rs0: PRIMARY> db.mycollection.find()
 SQL : select * from mycollection;
 </code></pre>
 
-####（2）条件查询
+#### （2）条件查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1})
 SQL : select * from mycollection where status = 1
 </code></pre>
 
-####（3）in查询
+#### （3）in查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':{$in[1,2]}})
 SQL : select * from mycollection where status in (1, 2)
 </code></pre>
 
-####（4）and查询
+#### （4）and查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1,level:{$lt:3}})
 SQL : select * from mycollection where status = 1 and level < 3
 </code></pre>
 
-####（5）or查询
+#### （5）or查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({$or:[{'status':1},{'level':{$lt:3}}]})
 SQL : select * from mycollection where status = 1 or level < 3
 </code></pre>
 
-####（6）and or 查询
+#### （6）and or 查询
 
 <pre><code>
 rs0: PRIMARY> db.mycollection.find({'status':1, $or:[{'level':{$lt:3}},{'time':{$gt:3}}]})
 SQL : select * from mycollection where status = 1 or (level < 3 and time > 3)
 </code></pre>
 
-####（7）嵌入式Embedded/Nested查询
+#### （7）嵌入式Embedded/Nested查询
 
 <pre><code>
 rs0:PRIMARY> db.mytest.insert( [
@@ -368,7 +368,7 @@ rs0:PRIMARY> db.mytest.find( { "size.h": { $lt: 15 }, "size.uom": "in", status: 
 { "_id" : ObjectId("5a40974246245769d3e9e04b"), "item" : "paper", "qty" : 100, "size" : { "h" : 8.5, "w" : 11, "uom" : "in" }, "status" : "D" }
 </code></pre>
 
-####（8）array查询
+#### （8）array查询
 
 插入测试数据
 <pre><code>
@@ -450,7 +450,7 @@ rs0:PRIMARY> db.mytest.find({'dim_cm':{$size:3}})
 rs0:PRIMARY>
 </code></pre>
 
-####（9）数组内嵌
+#### （9）数组内嵌
 
 插入测试数据
 <pre><code>
@@ -507,7 +507,7 @@ rs0:PRIMARY> db.mytest.find( { "instock.qty": 5, "instock.warehouse": "A" } )
 { "_id" : ObjectId("5a409f6446245769d3e9e056"), "item" : "planner", "instock" : [ { "warehouse" : "A", "qty" : 40 }, { "warehouse" : "B", "qty" : 5 } ] }
 </code></pre>
 
-####（10） 返回需要的查询结果
+#### （10） 返回需要的查询结果
 
 插入测试数据
 
@@ -578,7 +578,7 @@ rs0:PRIMARY> db.mytest.find( { status: "A" }, {instock:{$slice:-1},_id:0,item:1,
 { "item" : "postcard", "status" : "A", "instock" : [ { "warehouse" : "C", "qty" : 35 } ] }
 </code></pre>
 
-#### (11) null值的查询和是否存在某值的查询
+####  (11) null值的查询和是否存在某值的查询
 
 插入测试数据
 <pre><code>
@@ -615,7 +615,7 @@ rs0:PRIMARY> db.mytest2.find({item:{$exists:true}})
 { "_id" : 1, "item" : null }
 </code></pre>
 
-####（12） 创建索引
+#### （12） 创建索引
 
 <pre><code>
 db.mytest.createIndex( { user_id: 1,addtime:-1 } )
