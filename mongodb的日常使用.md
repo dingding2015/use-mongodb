@@ -85,12 +85,12 @@
 	<pre><code>
 	mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?	options]]
 	</code></pre>
- mongodb:// 这是固定的格式，必须要指定。<br>
- username:password@ 可选项，如果设置，在连接数据库服务器之后， 驱动都会尝试登陆这个数据库.<br>
- host1:连接服务器 <br>
- portN:连接端口，默认27017 <br>
- database:默认数据库，不指定是test <br>
- option:连接选项 <br>
+ **mongodb://** 这是固定的格式，必须要指定。<br>
+ **username:password@** 可选项，如果设置，在连接数据库服务器之后， 驱动都会尝试登陆这个数据库.<br>
+ **host1**:连接服务器 <br>
+ **portN**:连接端口，默认27017 <br>
+ **database**:默认数据库，不指定是test <br>
+ **option**:连接选项 <br>
   
 ## 3、mongodb CRUD 操作
 
