@@ -1,7 +1,7 @@
 # use-mongodb
 mongodb的使用
 
- [目录](content/directory.md)
+## 目录
  
  -  1 . [mongodb需要了解的一些概念](content/1.md)
 	- database
@@ -10,7 +10,7 @@ mongodb的使用
 	- field
 	- index
 - 2 . [mongodb的连接](content/1.md)
-- 3 . [mongodb CURD操作](content/2.md) 
+- 3 . [mongodb CRUD操作](content/2.md) 
   - 3.1 [create database](content/2.md) 
   - 3.2 [drop database](content/2.md) 
   - 3.3 [create collection](content/2.md) 
