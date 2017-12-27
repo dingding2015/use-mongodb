@@ -22,6 +22,7 @@ mongodb的使用
   - 3.9 [query](content/3.md)
  - 4 . [SQL和mongodb query 对照](content/4.md)
  - 5 . [SQL和mongodb create、alter、insert、update、delete 对照](content/5.md)
+ - 6 . [text search](content/6.md)
 
 
 
